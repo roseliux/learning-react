@@ -1,7 +1,10 @@
 import './App.css';
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { get_posts } from './components/api/endpoints';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import { get_posts, get_post } from './components/api/endpoints';
 import PostList from './components/PostList';
+import PostDetail from './components/PostDetail';
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -59,12 +62,17 @@ function App() {
   }, [fetchPosts]);
 
   return (
-    <div className="App">
-      <div className='app-container'>
-        <h1 className='title'>Test App</h1>
-        <PostList posts={posts} isLoading={isLoading} />
+    <Router>
+      <div className="App">
+        <div className='app-container'>
+          <h1 className='title'>Test App</h1>
+          <Routes>
+            <Route path="/" element={<PostList posts={posts} isLoading={isLoading} />} />
+            <Route path="/posts/:id" element={<PostDetail />} />
+          </Routes>
+        </div>
       </div>
-    </div>
+    </Router>
   );
 }
 
